@@ -1,103 +1,75 @@
-import Image from 'next/image';
+import { PostCard } from '@/components/features/blog/PostCard';
+
+import TagSection from '@/app/_components/TagSection';
+import ProfileSection from '@/app/_components/ProfileSection';
+import ContactSection from '@/app/_components/ContactSection';
+import Link from 'next/link';
+
+const mockPosts = [
+  {
+    id: '1',
+    title: 'Next.js 13으로 블로그 만들기',
+    description:
+      'Next.js 13과 Notion API를 활용하여 개인 블로그를 만드는 방법을 알아봅니다.',
+    coverImage: 'https://picsum.photos/800/400',
+    tags: [
+      { id: '1', name: 'Next.js', count: 1 },
+      { id: '2', name: 'React', count: 1 },
+    ],
+    authors: '짐코딩',
+    date: '2024-02-01',
+  },
+  {
+    id: '2',
+    title: 'TypeScript 기초 다지기',
+    description:
+      'TypeScript의 기본 문법과 실전에서 자주 사용되는 패턴들을 살펴봅니다.',
+    coverImage: 'https://picsum.photos/800/401',
+    tags: [
+      { id: '3', name: 'TypeScript', count: 2 },
+      { id: '4', name: 'JavaScript', count: 4 },
+    ],
+    authors: '짐코딩',
+    date: '2024-01-15',
+  },
+];
+
+const mockTags = [
+  { id: 'all', name: '전체', count: 20 },
+  { id: 'html', name: 'HTML', count: 10 },
+  { id: 'css', name: 'CSS', count: 5 },
+  { id: 'javascript', name: 'JavaScript', count: 3 },
+  { id: 'react', name: 'React', count: 3 },
+  { id: 'nextjs', name: 'Next.js', count: 3 },
+];
 
 export default function Home() {
   return (
-    <div className='grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20'>
-      <main className='row-start-2 flex flex-col items-center gap-[32px] sm:items-start'>
-        <Image
-          className='dark:invert'
-          src='/next.svg'
-          alt='Next.js logo'
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className='list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm/6 sm:text-left'>
-          <li className='mb-2 tracking-[-.01em]'>
-            Get started by editing{' '}
-            <code className='rounded bg-black/[.05] px-1 py-0.5 font-[family-name:var(--font-geist-mono)] font-semibold dark:bg-white/[.06]'>
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className='tracking-[-.01em]'>
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className='container py-8'>
+      <div className='grid grid-cols-[200px_1fr_220px] gap-6'>
+        {/* 좌측 사이드바 */}
+        <aside>
+          <TagSection tags={mockTags} />
+        </aside>
+        <div className='space-y-8'>
+          {/* 섹션 제목 */}
+          <h2 className='text-3xl font-bold tracking-tight'>블로그 목록</h2>
 
-        <div className='flex flex-col items-center gap-4 sm:flex-row'>
-          <a
-            className='bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm font-medium transition-colors hover:bg-[#383838] sm:h-12 sm:w-auto sm:px-5 sm:text-base dark:hover:bg-[#ccc]'
-            href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Image
-              className='dark:invert'
-              src='/vercel.svg'
-              alt='Vercel logomark'
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className='flex h-10 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm font-medium transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:w-auto sm:px-5 sm:text-base md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]'
-            href='https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Read our docs
-          </a>
+          {/* 블로그 카드 그리드 */}
+          <div className='grid gap-4'>
+            {mockPosts.map((post) => (
+              <Link href={`/blog/${post.id}`} key={post.id}>
+                <PostCard post={post} />
+              </Link>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className='row-start-3 flex flex-wrap items-center justify-center gap-[24px]'>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='/file.svg'
-            alt='File icon'
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='/window.svg'
-            alt='Window icon'
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='/globe.svg'
-            alt='Globe icon'
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {/* 우측 사이드바 */}
+        <aside className='flex flex-col gap-6'>
+          <ProfileSection />
+          <ContactSection />
+        </aside>
+      </div>
     </div>
   );
 }
